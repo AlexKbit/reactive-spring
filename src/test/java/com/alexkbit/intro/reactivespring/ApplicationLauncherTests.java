@@ -1,4 +1,4 @@
-package com.alexkbit.reactivespring.intro;
+package com.alexkbit.intro.reactivespring;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,0 +1,29 @@
+server:
+    port: ${PORT:9000}
+spring:
+  application:
+      name: reactive-spring-intro
+  profiles:
+      active: local
+
+logging:
+  level:
+     ROOT: INFO
+     com.alexkbit.intro: DEBUG
+     org.springframework: INFO
+
+spring:
+  data.mongodb:
+    uri: mongodb://localhost:27017/models
+
+---
+spring:
+  profiles: local
+
+---
+spring:
+  profiles: test
+
+---
+spring:
+  profiles: dev
