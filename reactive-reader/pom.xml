@@ -52,7 +52,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>com.alexkbit.intro.reactivespring.reader.MessageReader</mainClass>
+                            <mainClass>${start-class}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

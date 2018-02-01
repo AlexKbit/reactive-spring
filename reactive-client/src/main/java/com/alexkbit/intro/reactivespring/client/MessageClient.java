@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.alexkbit.intro.reactivespring.common.dto.MessageDto;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * Reactive client fro {@link MessageDto}.
@@ -18,12 +19,12 @@ public class MessageClient {
     private static final long DEFAULT_WAIT = 6L;
     private WebClient client = WebClient.create(DEFAULT_URL);
 
-    public Flux<MessageDto> save(MessageDto message) {
+    public Mono<MessageDto> save(MessageDto message) {
         return client.post()
                 .body(BodyInserters.fromObject(message))
                 .exchange()
-                .flatMapMany(cr -> cr.bodyToFlux(MessageDto.class))
-                .onErrorResume(err -> Flux.empty())
+                .flatMap(cr -> cr.bodyToMono(MessageDto.class))
+                .onErrorResume(err -> Mono.empty())
                 .take(Duration.ofSeconds(DEFAULT_WAIT));
     }
 

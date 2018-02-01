@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alexkbit.intro.reactivespring.common.dto.MessageDto;
 import com.alexkbit.intro.reactivespring.server.mapper.MessageMapper;
-import com.alexkbit.intro.reactivespring.server.model.Message;
 import com.alexkbit.intro.reactivespring.server.service.MessageService;
 
 import lombok.AllArgsConstructor;
@@ -26,10 +25,13 @@ public class MessageResource {
     private MessageService messageService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public Mono<MessageDto> save(@RequestBody Message message) {
-        log.debug("Save message = {}", message);
-        return messageService.save(message)
-                .map(mapper::toDto);
+    public Mono<MessageDto> save(@RequestBody Mono<MessageDto> message) {
+        return message.doOnNext(msg -> {
+            log.debug("Save message = {}", msg);
+            messageService
+                    .save(mapper.toModel(msg))
+                    .map(mapper::toDto).then();
+        });
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -14,4 +14,8 @@ public class MessageMapper {
     public MessageDto toDto(Message msg) {
         return new MessageDto(msg.getId(), msg.getSenderId(), msg.getReceiverId(), msg.getMessage());
     }
+
+    public Message toModel(MessageDto dto) {
+        return new Message(dto.getId(), dto.getSenderId(), dto.getReceiverId(), dto.getMessage());
+    }
 }

@@ -13,6 +13,7 @@
         <module>reactive-client</module>
 		<module>reactive-common</module>
 		<module>reactive-reader</module>
+		<module>reactive-generator</module>
 	</modules>
 
 	<name>reactive-spring-intro</name>
