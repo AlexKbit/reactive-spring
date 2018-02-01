@@ -20,6 +20,10 @@
             <groupId>com.alexkbit</groupId>
             <artifactId>reactive-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
     </dependencies>
 
 

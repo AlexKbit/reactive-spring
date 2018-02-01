@@ -26,7 +26,7 @@ public class MessageResource {
 
     @RequestMapping(method = RequestMethod.POST)
     public Mono<MessageDto> save(@RequestBody Mono<MessageDto> message) {
-        return message.doOnNext(msg -> {
+        return message.doOnSuccess(msg -> {
             log.debug("Save message = {}", msg);
             messageService
                     .save(mapper.toModel(msg))

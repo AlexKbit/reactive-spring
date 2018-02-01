@@ -2,7 +2,6 @@ package com.alexkbit.intro.reactivespring.generator;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -10,6 +9,7 @@ import java.util.stream.IntStream;
 import com.alexkbit.intro.reactivespring.client.MessageClient;
 import com.alexkbit.intro.reactivespring.common.dto.MessageDto;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import reactor.core.Disposable;
 
 /**
@@ -19,7 +19,6 @@ public class MessageGenerator {
 
     public static final int MESSAGE_SIZE = 128;
     private static final int DEFAULT_COUNT = 1;
-    private static final Random rd = new Random();
 
     public static void main(String[] args) {
         int count = args.length >= 1 ? Integer.valueOf(args[0]) : DEFAULT_COUNT;
@@ -27,7 +26,7 @@ public class MessageGenerator {
 
         List<Disposable> disposables = IntStream.range(0, count)
                 .mapToObj(i -> generateMessage())
-                .map(msg -> client.save(msg).subscribe(System.out::println))
+                .map(msg -> client.save(msg).subscribe())
                 .collect(Collectors.toList());
 
         // Wait result
@@ -39,11 +38,9 @@ public class MessageGenerator {
     }
 
     private static MessageDto generateMessage() {
-        byte[] msg = new byte[MESSAGE_SIZE];
-        rd.nextBytes(msg);
         return new MessageDto()
                 .setReceiverId(UUID.randomUUID().toString())
                 .setSenderId(UUID.randomUUID().toString())
-                .setMessage(new String(msg));
+                .setMessage(RandomStringUtils.randomAlphabetic(MESSAGE_SIZE));
     }
 }
