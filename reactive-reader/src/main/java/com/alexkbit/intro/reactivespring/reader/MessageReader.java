@@ -9,13 +9,16 @@ import reactor.core.Disposable;
  */
 public class MessageReader {
 
+    private static final long DEFAULT_LIMIT = 100L;
+
     public static void main(String[] args) {
-        long limit = args.length != 0 ? Long.valueOf(args[0]) : 100;
+        long limit = args.length != 0 ? Long.valueOf(args[0]) : DEFAULT_LIMIT;
 
         MessageClient client = new MessageClient();
         Disposable disposable = client
                 .getAll()
                 .limitRequest(limit)
+                .buffer(2)
                 .subscribe(System.out::println);
 
         while (!disposable.isDisposed()) {
