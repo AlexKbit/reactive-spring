@@ -25,13 +25,11 @@ public class MessageResource {
     private MessageService messageService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public Mono<MessageDto> save(@RequestBody Mono<MessageDto> message) {
-        return message.doOnSuccess(msg -> {
-            log.debug("Save message = {}", msg);
-            messageService
-                    .save(mapper.toModel(msg))
-                    .map(mapper::toDto).then();
-        });
+    public Mono<MessageDto> save(@RequestBody MessageDto message) {
+        log.debug("Save message = {}", message);
+        return messageService
+                    .save(mapper.toModel(message))
+                    .map(mapper::toDto);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

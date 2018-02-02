@@ -18,15 +18,15 @@ import reactor.core.Disposable;
 public class MessageGenerator {
 
     public static final int MESSAGE_SIZE = 128;
-    private static final int DEFAULT_COUNT = 1;
+    private static final int DEFAULT_COUNT = 100;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         int count = args.length >= 1 ? Integer.valueOf(args[0]) : DEFAULT_COUNT;
         MessageClient client = new MessageClient();
 
         List<Disposable> disposables = IntStream.range(0, count)
                 .mapToObj(i -> generateMessage())
-                .map(msg -> client.save(msg).subscribe())
+                .map(msg -> client.save(msg).subscribe(System.out::println))
                 .collect(Collectors.toList());
 
         // Wait result
@@ -34,6 +34,7 @@ public class MessageGenerator {
         do {
             res = disposables.stream().map(Disposable::isDisposed).reduce(Boolean::logicalAnd);
         } while (res.isPresent() && !res.get());
+        Thread.sleep(1000L);
         System.out.println("Generated: " + count + " messages.");
     }
 

@@ -23,18 +23,14 @@ public class MessageClient {
         return client.post()
                 .body(BodyInserters.fromObject(message))
                 .exchange()
-                .flatMap(cr -> cr.bodyToMono(MessageDto.class))
-                .onErrorResume(err -> Mono.empty())
-                .take(Duration.ofSeconds(DEFAULT_WAIT));
+                .flatMap(cr -> cr.bodyToMono(MessageDto.class));
     }
 
-    public Flux<MessageDto> get(String id) {
+    public Mono<MessageDto> get(String id) {
         return client.get()
                 .uri("/{id}", id)
                 .exchange()
-                .flatMapMany(cr -> cr.bodyToFlux(MessageDto.class))
-                .onErrorResume(err -> Flux.empty())
-                .take(Duration.ofSeconds(DEFAULT_WAIT));
+                .flatMap(cr -> cr.bodyToMono(MessageDto.class));
     }
 
     public Flux<MessageDto> getAll() {
