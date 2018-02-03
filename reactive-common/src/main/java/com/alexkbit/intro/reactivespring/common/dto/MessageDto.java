@@ -14,4 +14,14 @@ public class MessageDto {
     private String senderId;
     private String receiverId;
     private String message;
+
+    @Override
+    public String toString() {
+        return "{"
+                + "\n id=" + id
+                + "\n senderId=" + senderId
+                + "\n receiverId=" + receiverId
+                + "\n message=" + message
+                + "\n}";
+    }
 }
