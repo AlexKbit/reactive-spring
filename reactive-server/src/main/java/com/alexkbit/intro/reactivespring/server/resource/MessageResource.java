@@ -19,24 +19,22 @@ public class MessageResource {
     private MessageMapper mapper;
     private MessageService messageService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public Mono<MessageDto> save(@RequestBody MessageDto message) {
         log.debug("Save message = {}", message);
         return messageService
                     .save(mapper.toModel(message))
-                    .map(mapper::toDto)
-                .publishOn(Schedulers.elastic());
+                    .map(mapper::toDto);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public Mono<MessageDto> get(@PathVariable("id") String id) {
         log.debug("Get message by id = {}", id);
         return messageService.getById(id)
-                .map(mapper::toDto)
-                .publishOn(Schedulers.elastic());
+                .map(mapper::toDto);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public Flux<MessageDto> getAll() {
         log.debug("Get all messages");
         return messageService.findAll()

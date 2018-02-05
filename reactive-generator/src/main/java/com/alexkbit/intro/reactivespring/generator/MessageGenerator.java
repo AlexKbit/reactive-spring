@@ -17,7 +17,7 @@ import reactor.core.Disposable;
  */
 public class MessageGenerator {
 
-    public static final int MESSAGE_SIZE = 128;
+    private static final int MESSAGE_SIZE = 128;
     private static final int DEFAULT_COUNT = 100;
 
     public static void main(String[] args) throws InterruptedException {
